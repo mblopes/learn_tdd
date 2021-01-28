@@ -23,7 +23,7 @@ class Category(BaseModel):
         return name
 
     @validates('description')
-    def validate_name(self, key, description):
+    def validate_description(self, key, description):
         if not isinstance(description, str):
             raise TypeError('Description must be a string')
         if len(description) > 150:
