@@ -5,7 +5,6 @@ from sqlalchemy import Column, String
 from sqlalchemy.orm import validates
 from models.base_model import BaseModel
 from utils.validators import validate_not_empty, validate_type, validate_len
-# from sqlalchemy.orm import validates
 
 
 class Category(BaseModel):

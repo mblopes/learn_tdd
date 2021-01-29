@@ -6,17 +6,16 @@ from models.base_model import BaseModel
 import pytest
 
 class TestCategoryModel:
-
-    @pytest.mark.parametrize("name, description", [
-        ('N',''), 
-        ('N'*100, 'D'*150), 
-        ('N' * 50,'D' * 120),
-        ('N' * 45,'D' * 120)
+    @pytest.mark.parametrize("name", [
+        None, 5, 5.0, [1, 2, 3],
+        ('a', 'b', 'c'),
+        Category('name', 'description'),
+        {'name': 'test name',
+        'description': 'test description'}
     ])
-    def test_category_instance(self, name, description):
-        category = Category(name, description)
-        assert isinstance(category, Category)
-        assert isinstance(category, BaseModel)
+    def test_name_not_instance_str(self, name):
+        with pytest.raises(TypeError):
+            Category(name, 'test description')
 
     def test_name_not_instance_str(self):
         with pytest.raises(TypeError):
