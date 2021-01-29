@@ -1,11 +1,17 @@
+import sys
+sys.path.append('.')
+
 from sqlalchemy import Column, String
 from sqlalchemy.orm import validates
-from .base_model import BaseModel
+from models.base_model import BaseModel
+from utils.validators import validate_not_empty, validate_type, validate_len
+# from sqlalchemy.orm import validates
 
 
 class Category(BaseModel):
-    __tablename__ = "CATEGORY"
-    name = Column(String(length = 50), nullable=False)
+    __tablename__ = "CATEGORIES"
+
+    name = Column(String(length = 100), nullable=False)
     description = Column(String(length = 150), nullable=True)
     
     def __init__(self, name: str, description: str):
@@ -13,19 +19,12 @@ class Category(BaseModel):
         self.description = description
 
     @validates('name')
-    def validate_name(self, key, name):
-        if not isinstance(name, str):
-            raise TypeError('Name must be a string')
-        if not name.strip():
-            raise ValueError('Name can not be empty')
-        if len(name) > 50:
-            raise ValueError('Name is bigger than 50 characters')
-        return name
+    def validate_name(self, key, name: str) -> str:
+        name = validate_type(name, str, key)
+        name = validate_not_empty(name, key)
+        return validate_len(name, 100, key)
 
     @validates('description')
-    def validate_description(self, key, description):
-        if not isinstance(description, str):
-            raise TypeError('Description must be a string')
-        if len(description) > 150:
-            raise ValueError('Description is bigger than 150 characters')
-        return description
+    def validate_description(self, key, description: str) -> str:
+        description = validate_type(description, str, key)
+        return validate_len(description, 150, key)

@@ -3,45 +3,48 @@ sys.path.append('.')
 
 from models.category_model import Category
 from models.base_model import BaseModel
-
+import pytest
 
 class TestCategoryModel:
-    def test_category_instance(self):
-        category = Category('test name', 'test descirption')
+
+    @pytest.mark.parametrize("name, description", [
+        ('N',''), 
+        ('N'*100, 'D'*150), 
+        ('N' * 50,'D' * 120),
+        ('N' * 45,'D' * 120)
+    ])
+    def test_category_instance(self, name, description):
+        category = Category(name, description)
         assert isinstance(category, Category)
         assert isinstance(category, BaseModel)
 
-    def test_name_isinstance_str(self):
-        try:
+    def test_name_not_instance_str(self):
+        with pytest.raises(TypeError):
             Category(None, 'test description')
-            raise NotImplementedError('Not implemented error')
-        except Exception as error:
-            assert isinstance(error, TypeError)
 
-    def test_name_blank_spaces(self):
-        try:
-            Category(' ', 'test description')
-            raise NotImplementedError('Not implemented error')
-        except Exception as error:
-            assert isinstance(error, ValueError)
+    def test_name_min_len(self):
+        name = 'N'
+        description = ''
+        category = Category(name, description)
+        assert category.name is name        
+
+    @pytest.mark.parametrize("name, description", [
+        (10, 'test description'),
+        (10.5, 'test description'),
+        (False, 'test description')
+    ])
+    def test_name_blank_spaces(self, name, description):
+        with pytest.raises(ValueError):
+            category = Category('', 'test description')
 
     def test_name_too_big(self):
-        try:
-            Category('test name'*100, 'test description')
-            raise NotImplementedError('Not implemented error')
-        except Exception as error:
-            assert isinstance(error, ValueError)
+        with pytest.raises(ValueError):
+            category = Category('test name'*100, 'test description')
 
-    def test_description_isinstance_str(self):
-        try:
-            Category('test name', None)
-            raise NotImplementedError('Not implemented error')
-        except Exception as error:
-            assert isinstance(error, TypeError)
+    def test_description_not_none(self):
+        with pytest.raises(TypeError):
+            category = Category('test name', None)
 
     def test_description_too_big(self):
-        try:
-            Category('test name'*100, 'test description')
-            raise NotImplementedError('Not implemented error')
-        except Exception as error:
-            assert isinstance(error, ValueError)
+        with pytest.raises(ValueError):
+            category = Category('test name', 'test description'*200)
