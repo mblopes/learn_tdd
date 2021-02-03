@@ -19,7 +19,7 @@ class BaseController:
         return self.__dao.save(model)
 
     def update(self, model: BaseModel) -> BaseModel:
-        self.read_by_id(model.id_)
+        self.read_by_id(model.id)
         return self.__dao.save(model)
 
     def delete(self, model: BaseModel) -> None:
