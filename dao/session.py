@@ -7,11 +7,16 @@ from sqlalchemy.orm import sessionmaker
 class Session:
     def __init__(self):
         load_dotenv()
-        connector = os.getenv('CONNECTOR')
+        connector = 'mysql+pymysql'
+        host = 'mysql09-farm15.uni5.net'
+        user = 'topskills17'
+        password = 'ButecoOlist21'
+        dbname = 'topskills17'
+        '''connector = os.getenv('CONNECTOR')
         host = os.getenv('HOST')
         user = os.getenv('USER')
         password = os.getenv('PASSWORD')
-        dbname = os.getenv('DATABASE')
+        dbname = os.getenv('DATABASE')'''
         self.__conn_string = f'{connector}://{user}:{password}@{host}:3306/{dbname}'
 
     def __enter__(self):
