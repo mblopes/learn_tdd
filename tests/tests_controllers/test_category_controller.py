@@ -47,7 +47,7 @@ class TestCategoryController:
         category_controller.delete(created)
         with pytest.raises(Exception) as exc:
             category_controller.read_by_id(created.id)
-            assert str(exc.value) == 'Object not found in the database.
+            assert str(exc.value) == 'Object not found in the database.'
 
     def test_read_by_id_should_return_team(self, category_controller, category_instance):
         created = category_controller.create(category_instance)
