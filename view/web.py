@@ -1,7 +1,7 @@
 import sys
 sys.path.append('.')
 
-from flask import Flask, render_template
+from flask import Flask, render_template, redirect
 from controllers.category_controller import CategoryController
 
 app = Flask(__name__)
@@ -18,6 +18,12 @@ def category():
     categories = controller.read_all()
     return render_template('list_categories.html', categories=categories)
 
+@app.route('/category/delete/<int:id>')
+def delete_category(id):
+    controller = CategoryController()
+    category = controller.read_by_id(id)
+    controller.delete(category)
+    return redirect('/category')
 
 
 app.run(debug=True)
