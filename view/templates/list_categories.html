@@ -1,0 +1,37 @@
+{% extends 'base.html'%}
+
+{% block body%}
+    <div class="container">
+        <h1>Categories Manager</h1>
+        <a class="btn btn-success" href="/">Back</a>
+
+        <table class="table table-striped">
+            <thead>
+                <tr>
+                    <td>Name</td>
+                    <td>Description</td>
+                    <td>Actions</td>
+                </tr>
+            </thead>
+
+            <tbody>
+                {% for category in categories %}
+                    <tr>
+                        <td>{{ category.name }}</td>
+                        <td>{{ category.description }}</td>
+                        <td>
+                            <a class="btn btn-danger" href="/category/delete/{{ category.id }}">Delete</a>
+                            <a class="btn btn-primary" href="/category/update/{{ category.id }}">Update</a>
+
+                        </td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+
+            <tfoot>
+
+            </tfoot>
+        </table>
+
+    </div>
+{% endblock %}

@@ -1,0 +1,19 @@
+.container {
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+}
+
+.container form {
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+}
+
+.container form input{
+    margin-bottom: 8px;
+}
+
+.container .btn{
+    margin-bottom: 8px;
+}
